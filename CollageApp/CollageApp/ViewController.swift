@@ -61,6 +61,8 @@ class ViewController: UIViewController, UIDropInteractionDelegate, UIDragInterac
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        // The navigation item’s title displayed in the navigation bar.
+        navigationItem.title = "Collage Sharing"
         
         // An interaction to enable dropping of items onto a view, employing a delegate to instantiate objects and respond to calls from the drop session.
         view.addInteraction(UIDropInteraction(delegate: self))
