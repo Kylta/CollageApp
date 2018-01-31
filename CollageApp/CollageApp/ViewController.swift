@@ -74,6 +74,17 @@ class ViewController: UIViewController, UIDropInteractionDelegate, UIDragInterac
     
     @objc func handleShare() {
         print("Sharing image")
+        
+        // Creates a bitmap-based graphics context and makes it the current context.
+        UIGraphicsBeginImageContext(view.frame.size)
+        
+        // Renders the layer and its sublayers into the specified context.
+        // Returns the current graphics context.
+        view.layer.render(in: UIGraphicsGetCurrentContext()!)
+        
+        // Returns an image based on the contents of the current bitmap-based graphics context.
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        
     }
     
     // Tells the delegate it can request the item provider data from the session’s drag items.
