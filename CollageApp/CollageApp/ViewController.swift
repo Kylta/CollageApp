@@ -63,11 +63,17 @@ class ViewController: UIViewController, UIDropInteractionDelegate, UIDragInterac
         view.backgroundColor = .white
         // The navigation item’s title displayed in the navigation bar.
         navigationItem.title = "Collage Sharing"
+        // A custom bar button item displayed on the right (or trailing) edge of the navigation bar when the receiver is the top navigation item.
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(handleShare))
         
         // An interaction to enable dropping of items onto a view, employing a delegate to instantiate objects and respond to calls from the drop session.
         view.addInteraction(UIDropInteraction(delegate: self))
         // An interaction to enable dragging of items from a view, employing a delegate to provide drag items and to respond to calls from the drag session.
         view.addInteraction(UIDragInteraction(delegate: self))
+    }
+    
+    @objc func handleShare() {
+        print("Sharing image")
     }
     
     // Tells the delegate it can request the item provider data from the session’s drag items.
