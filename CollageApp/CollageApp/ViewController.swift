@@ -18,6 +18,11 @@ class ViewController: UIViewController, UIDropInteractionDelegate {
         view.addInteraction(UIDropInteraction(delegate: self))
     }
     
+    // Method for copy Drip in the session (.move is take an object from an other app and put it the drop)
+    func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+        return UIDropProposal(operation: .copy)
+    }
+    
     // Method for check if the session can load object (here it's an UIImage)
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
         return session.canLoadObjects(ofClass: UIImage.self)
