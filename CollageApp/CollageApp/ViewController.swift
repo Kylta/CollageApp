@@ -38,6 +38,10 @@ class ViewController: UIViewController, UIDropInteractionDelegate {
                     self.view.addSubview(imageView)
                     // Chose where be placed the image
                     imageView.frame = CGRect(x: 0, y: 0, width: draggedImage.size.width, height: draggedImage.size.height)
+                    
+                    // Returns the geometrical location of the user’s drag activity within the specified view.
+                    let centerPoint = session.location(in: self.view)
+                    imageView.center = centerPoint
                 }
             })
         }
