@@ -32,9 +32,13 @@ class ViewController: UIViewController, UIDropInteractionDelegate {
                 // Condition if drag is an UIimage
                 guard let draggedImage = obj as? UIImage else { return }
                 
-                let imageView = UIImageView(image: draggedImage)
-                self.view.addSubview(imageView)
-                
+                // DispatchQueue manages the execution of work items. Each work item submitted to a queue is processed on a pool of threads managed by the system.
+                DispatchQueue.main.async {
+                    let imageView = UIImageView(image: draggedImage)
+                    self.view.addSubview(imageView)
+                    // Chose where be placed the image
+                    imageView.frame = CGRect(x: 0, y: 0, width: draggedImage.size.width, height: draggedImage.size.height)
+                }
             })
         }
     }
