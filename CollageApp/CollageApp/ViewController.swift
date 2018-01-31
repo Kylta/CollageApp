@@ -8,33 +8,59 @@
 
 import UIKit
 
-// Add UIDropInteractionDelegate for delegate on the method addInteraction
-class ViewController: UIViewController, UIDropInteractionDelegate {
+// The interface for configuring and controlling a drop interaction.
+// The interface for configuring and controlling a drag interaction.
+class ViewController: UIViewController, UIDropInteractionDelegate, UIDragInteractionDelegate {
+    
+    // Asks the delegate for the array of drag items for an impending drag interaction.
+    func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
+        
+        // Returns the geometrical location of the user’s drag activity within the specified view.
+        let touchedPoint = session.location(in: self.view)
+        // Returns the farthest descendant of the receiver in the view hierarchy (including itself) that contains a specified point.
+        if let touchedImageView = self.view.hitTest(touchedPoint, with: nil) as? UIImageView {
+            
+            let touchedImage = touchedImageView.image
+            
+            // An item provider for conveying data or a file between processes during drag and drop or copy/paste activities, or from a host app to an app extension.
+            let itemProvider = NSItemProvider(object: touchedImage!)
+            // A representation of an underlying data item being dragged from one location to another.
+            let dragItem = UIDragItem(itemProvider: itemProvider)
+            
+            return [dragItem]
+        }
+        
+        return []
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Add the method at view for drop an image and delegate it in the view
+        // An interaction to enable dropping of items onto a view, employing a delegate to instantiate objects and respond to calls from the drop session.
         view.addInteraction(UIDropInteraction(delegate: self))
+        // An interaction to enable dragging of items from a view, employing a delegate to provide drag items and to respond to calls from the drag session.
+        view.addInteraction(UIDragInteraction(delegate: self))
     }
     
-    // Method for had an array of item drop in the view
+    // Tells the delegate it can request the item provider data from the session’s drag items.
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
-        // Loop for session.items because it's an array
+        // An array of drag items in the drag session or drop session.
         for dragItem in session.items {
-            // Closure for check if obj drag is good or if it's an error
+            // Asynchronously loads an object of a specified class to an item provider, returning a Progress object.
             dragItem.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (obj, err) in
-                // Condition if drag is an error (other than an UIimage)
+                
                 if let err = err {
                     print("Failed to our drag item:", err)
                     return
                 }
-                // Condition if drag is an UIimage
+                
                 guard let draggedImage = obj as? UIImage else { return }
                 
                 // DispatchQueue manages the execution of work items. Each work item submitted to a queue is processed on a pool of threads managed by the system.
                 DispatchQueue.main.async {
                     let imageView = UIImageView(image: draggedImage)
+                    // A Boolean value that determines whether user events are ignored and removed from the event queue.
+                    imageView.isUserInteractionEnabled = true
                     self.view.addSubview(imageView)
                     // Chose where be placed the image
                     imageView.frame = CGRect(x: 0, y: 0, width: draggedImage.size.width, height: draggedImage.size.height)
@@ -47,12 +73,12 @@ class ViewController: UIViewController, UIDropInteractionDelegate {
         }
     }
     
-    // Method for copy Drip in the session (.move is take an object from an other app and put it the drop)
+    // Tells the delegate the drop session has changed.
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
         return UIDropProposal(operation: .copy)
     }
     
-    // Method for check if the session can load object (here it's an UIImage)
+    // Asks the delegate whether it can handle the session’s drag items.
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
         return session.canLoadObjects(ofClass: UIImage.self)
     }
