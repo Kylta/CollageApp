@@ -33,6 +33,24 @@ class ViewController: UIViewController, UIDropInteractionDelegate, UIDragInterac
         return []
     }
     
+    // Tells the delegate the system's lift animation is about to start.
+    func dragInteraction(_ interaction: UIDragInteraction, willAnimateLiftWith animator: UIDragAnimating, session: UIDragSession) {
+        // Calls the given closure on each element in the sequence in the same order as a for-in loop.
+        session.items.forEach { (dragItem) in
+            // A custom object associated with the drag item.
+            if let touchedImageView = dragItem.localObject as? UIView {
+                // Unlinks the view from its superview and its window, and removes it from the responder chain.
+                touchedImageView.removeFromSuperview()
+            }
+        }
+    }
+    
+    // Tells the delegate the system's cancellation animation is about to start.
+    func dragInteraction(_ interaction: UIDragInteraction, item: UIDragItem, willAnimateCancelWith animator: UIDragAnimating) {
+        // Adds a view to the end of the receiver’s list of subviews.
+        self.view.addSubview(item.localObject as! UIView)
+    }
+    
     // Asks the delegate for the targeted drag item preview that will appear during the lift animation.
     func dragInteraction(_ interaction: UIDragInteraction, previewForLifting item: UIDragItem, session: UIDragSession) -> UITargetedDragPreview? {
         // A drag item preview used by the system during lift, drop, or cancellation animation.
