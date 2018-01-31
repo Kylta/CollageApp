@@ -81,9 +81,14 @@ class ViewController: UIViewController, UIDropInteractionDelegate, UIDragInterac
         // Renders the layer and its sublayers into the specified context.
         // Returns the current graphics context.
         view.layer.render(in: UIGraphicsGetCurrentContext()!)
-        
         // Returns an image based on the contents of the current bitmap-based graphics context.
-        let image = UIGraphicsGetImageFromCurrentImageContext()
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return }
+        
+        let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        
+        activityViewController.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        
+        present(activityViewController, animated: true, completion: nil)
         
     }
     
