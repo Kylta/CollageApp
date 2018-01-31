@@ -60,6 +60,8 @@ class ViewController: UIViewController, UIDropInteractionDelegate, UIDragInterac
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
+        
         // An interaction to enable dropping of items onto a view, employing a delegate to instantiate objects and respond to calls from the drop session.
         view.addInteraction(UIDropInteraction(delegate: self))
         // An interaction to enable dragging of items from a view, employing a delegate to provide drag items and to respond to calls from the drag session.
