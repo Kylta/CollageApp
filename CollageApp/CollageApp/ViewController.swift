@@ -111,6 +111,14 @@ class ViewController: UIViewController, UIDropInteractionDelegate, UIDragInterac
                     let imageView = UIImageView(image: draggedImage)
                     // A Boolean value that determines whether user events are ignored and removed from the event queue.
                     imageView.isUserInteractionEnabled = true
+                    // The width of the layer’s border. Animatable.
+                    imageView.layer.borderWidth = 4
+                    // The color of the layer’s border. Animatable.
+                    imageView.layer.borderColor = UIColor.black.cgColor
+                    // The blur radius (in points) used to render the layer’s shadow. Animatable.
+                    imageView.layer.shadowRadius = 5
+                    // The opacity of the layer’s shadow. Animatable.
+                    imageView.layer.shadowOpacity = 0.3
                     self.view.addSubview(imageView)
                     // Chose where be placed the image
                     imageView.frame = CGRect(x: 0, y: 0, width: draggedImage.size.width, height: draggedImage.size.height)
