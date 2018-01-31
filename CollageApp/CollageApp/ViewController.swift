@@ -14,7 +14,6 @@ class ViewController: UIViewController, UIDropInteractionDelegate, UIDragInterac
     
     // Asks the delegate for the array of drag items for an impending drag interaction.
     func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
-        
         // Returns the geometrical location of the user’s drag activity within the specified view.
         let touchedPoint = session.location(in: self.view)
         // Returns the farthest descendant of the receiver in the view hierarchy (including itself) that contains a specified point.
@@ -26,11 +25,18 @@ class ViewController: UIViewController, UIDropInteractionDelegate, UIDragInterac
             let itemProvider = NSItemProvider(object: touchedImage!)
             // A representation of an underlying data item being dragged from one location to another.
             let dragItem = UIDragItem(itemProvider: itemProvider)
-            
+            // A custom object associated with the drag item.
+            dragItem.localObject = touchedImageView
             return [dragItem]
         }
         
         return []
+    }
+    
+    // Asks the delegate for the targeted drag item preview that will appear during the lift animation.
+    func dragInteraction(_ interaction: UIDragInteraction, previewForLifting item: UIDragItem, session: UIDragSession) -> UITargetedDragPreview? {
+        // A drag item preview used by the system during lift, drop, or cancellation animation.
+        return UITargetedDragPreview(view: item.localObject as! UIView)
     }
 
     override func viewDidLoad() {
