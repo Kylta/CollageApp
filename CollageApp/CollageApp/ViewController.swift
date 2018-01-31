@@ -22,7 +22,20 @@ class ViewController: UIViewController, UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         // Loop for session.items because it's an array
         for dragItem in session.items {
-            
+            // Closure for check if obj drag is good or if it's an error
+            dragItem.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (obj, err) in
+                // Condition if drag is an error (other than an UIimage)
+                if let err = err {
+                    print("Failed to our drag item:", err)
+                    return
+                }
+                // Condition if drag is an UIimage
+                guard let draggedImage = obj as? UIImage else { return }
+                
+                let imageView = UIImageView(image: draggedImage)
+                self.view.addSubview(imageView)
+                
+            })
         }
     }
     
